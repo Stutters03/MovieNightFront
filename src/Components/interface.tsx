@@ -3,9 +3,25 @@ interface MoviesType{
     year: string,
     title: string,
     genres:string[],
-    runtime:number[],
+    runtime:string,
     type:string,
     poster:string,
 }
 
-export type { MoviesType }
+interface SeriesType{
+    _id: string,
+    year: string,
+    title: string,
+    genres:string[],
+    runtime:string,
+    type:string,
+    poster:string,
+}
+
+interface FaveType{
+    _id: string,
+    showID: string
+}
+
+
+export type { MoviesType, SeriesType,FaveType }

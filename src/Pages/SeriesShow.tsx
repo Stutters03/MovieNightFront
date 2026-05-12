@@ -1,40 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import type { MoviesType } from '../Components/interface'
-import ShowMovie from '../Components/ShowMovie'
+import type { SeriesType } from '../Components/interface'
+import ShowSeries from '../Components/ShowSeries'
 import { Link } from 'react-router'
 
-const ShowMovies = () => {
+const SeriesShow = () => {
 
   // declare state variable to store the array of customers
-  const [allMovies, setAllMovies] = useState<MoviesType[] | undefined>()
+  const [allSeries, setAllSeries] = useState<SeriesType[] | undefined>()
   // declare state variable to store the array of customers based on user input
-  const [filteredMovies, setFilteredMovies] = useState<MoviesType[] | undefined>()
+  const [filteredMovies, setFilteredSeries] = useState<SeriesType[] | undefined>()
   // declare state variable to track the page number. Default value is set to 1
   const [pageNum, setPageNum] = useState<number>(1)
 
   // function to fetch customer data by the specified page number
-  const fetchMovie = (pgNum: number) => {
+  const fetchSeries = (pgNum: number) => {
     // construct the URL and header for fetching the data from the API (backend)
-    const getMovieURL = `http://localhost:3000/movie/p${pgNum}`
-    const getMovieReq = new Request(getMovieURL, {
+    const getSeriesURL = `http://localhost:3000/series/p${pgNum}`
+    const getSeriesReq = new Request(getSeriesURL, {
       headers: {
         "Content-Type": "application/json",
-
-        
       },
     })
     // fetch the movie data
-    fetch(getMovieReq)
+    fetch(getSeriesReq)
       .then((res) => res.json())
       .then((data) => {
         // store the retrieved data into the state variables
-        setAllMovies(data)
-        setFilteredMovies(data)
+        setAllSeries(data)
+        setFilteredSeries(data)
       })
   }
   // use effect is used to allow React to fetch data from an external source
   useEffect(() => {
-    fetchMovie(pageNum)
+    fetchSeries(pageNum)
   }, [pageNum]); // the square brackets is for dependecies of the useEffect() method
   // and it will automatically re-render the useEffect whenever the dependcy changes
 
@@ -48,12 +46,12 @@ const ShowMovies = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value
-    setFilteredMovies(
+    setFilteredSeries(
       // use the array filter function to create a new array containing only matching elements
-      allMovies?.filter(movie => {
+      allSeries?.filter(series => {
         // truthy condition for adding elements to the new array
-        if (movie.title.toLowerCase().includes(searchTerm.toLowerCase()))
-          return movie
+        if (series.title.toLowerCase().includes(searchTerm.toLowerCase()))
+          return series
       })
     )
   }
@@ -62,7 +60,7 @@ const ShowMovies = () => {
   return (
     // fragment to hold JSX elements because a component can only render a single JSX element
     <>
-      <div className=" text-2xl"> Movies List</div>
+      <div className=" text-2xl"> Series List</div>
       <div className="flex justify-end px-19 w-full">
         <h3 className="text-2xl p-2">Search</h3>
         {/* trigger the handleSearch function every time a change event is detected on the input element */}
@@ -73,12 +71,12 @@ const ShowMovies = () => {
         {filteredMovies && filteredMovies.length > 0 ? (
           // the array method map creates a new array by executing a specified transformation function
           // Here the usage is to convert the data in each index into a JSX element
-          filteredMovies.map((movies: MoviesType) => {
+          filteredMovies.map((series: SeriesType) => {
             // Since each element has a consistent look, we use a component
             // a unique key must be specified for each copy and each index is passed to it
             return (
-              <Link to={"/show" + movies.title} key={movies._id} >
-                <ShowMovie movie= {movies} mode={false} />
+              <Link to={"/show/series" + series.title} key={series._id} >
+                <ShowSeries series = {series} mode={true} />
               </Link>
             )
           })
@@ -94,5 +92,4 @@ const ShowMovies = () => {
     </>
   )
 }
-
-export default ShowMovies
+export default SeriesShow

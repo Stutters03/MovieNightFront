@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import type { MoviesType } from '../Components/interface'
-import ShowMovie from '../Components/ShowMovie'
+import type { FaveType, MoviesType } from '../Components/interface'
+import ShowFave from '../Components/ShowFave'
 import { Link } from 'react-router'
 
-const ShowMovies = () => {
+function ShowFaves() {
 
-  // declare state variable to store the array of customers
-  const [allMovies, setAllMovies] = useState<MoviesType[] | undefined>()
+
+    // declare state variable to store the array of customers
+  const [allFaves, setAllFaves] = useState<MoviesType[] | undefined>()
   // declare state variable to store the array of customers based on user input
-  const [filteredMovies, setFilteredMovies] = useState<MoviesType[] | undefined>()
+  const [filteredFaves, setFilteredFaves] = useState<MoviesType[] | undefined>()
   // declare state variable to track the page number. Default value is set to 1
   const [pageNum, setPageNum] = useState<number>(1)
 
   // function to fetch customer data by the specified page number
-  const fetchMovie = (pgNum: number) => {
+  const fetchFaves = () => {
     // construct the URL and header for fetching the data from the API (backend)
-    const getMovieURL = `http://localhost:3000/movie/p${pgNum}`
-    const getMovieReq = new Request(getMovieURL, {
+    const getFavesURL = `http://localhost:3000/faves/show`
+    const getFavesReq = new Request(getFavesURL, {
       headers: {
         "Content-Type": "application/json",
 
@@ -24,17 +25,17 @@ const ShowMovies = () => {
       },
     })
     // fetch the movie data
-    fetch(getMovieReq)
+    fetch(getFavesReq)
       .then((res) => res.json())
       .then((data) => {
         // store the retrieved data into the state variables
-        setAllMovies(data)
-        setFilteredMovies(data)
+        setAllFaves(data)
+        setFilteredFaves(data)
       })
   }
   // use effect is used to allow React to fetch data from an external source
   useEffect(() => {
-    fetchMovie(pageNum)
+    fetchFaves(pageNum)
   }, [pageNum]); // the square brackets is for dependecies of the useEffect() method
   // and it will automatically re-render the useEffect whenever the dependcy changes
 
@@ -48,9 +49,9 @@ const ShowMovies = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value
-    setFilteredMovies(
+    setFilteredFaves(
       // use the array filter function to create a new array containing only matching elements
-      allMovies?.filter(movie => {
+      allFaves?.filter(movie => {
         // truthy condition for adding elements to the new array
         if (movie.title.toLowerCase().includes(searchTerm.toLowerCase()))
           return movie
@@ -62,7 +63,7 @@ const ShowMovies = () => {
   return (
     // fragment to hold JSX elements because a component can only render a single JSX element
     <>
-      <div className=" text-2xl"> Movies List</div>
+      <div className=" text-2xl"> Favoraite Movies List</div>
       <div className="flex justify-end px-19 w-full">
         <h3 className="text-2xl p-2">Search</h3>
         {/* trigger the handleSearch function every time a change event is detected on the input element */}
@@ -70,21 +71,21 @@ const ShowMovies = () => {
       </div>
       <div className="flex flex-wrap gap-8 justify-center">
         {/* check if the filteredCustomers state variable is null or has zero indexes */}
-        {filteredMovies && filteredMovies.length > 0 ? (
+        {filteredFaves && filteredFaves.length > 0 ? (
           // the array method map creates a new array by executing a specified transformation function
           // Here the usage is to convert the data in each index into a JSX element
-          filteredMovies.map((movies: MoviesType) => {
+          filteredFaves.map((fave: FaveType) => {
             // Since each element has a consistent look, we use a component
             // a unique key must be specified for each copy and each index is passed to it
             return (
-              <Link to={"/show" + movies.title} key={movies._id} >
-                <ShowMovie movie= {movies} mode={false} />
+              <Link to={"/show" + fave.showID} key={fave._id} >
+                <ShowFave fave = {fave} mode={false} />
               </Link>
             )
           })
         ) : (
           // else component for the ternary operator
-          <p>No Movies Found.</p>
+          <p>No Favoraites Found.</p>
         )}
       </div>
       <div className="flex justify-around mt-3">
@@ -95,4 +96,4 @@ const ShowMovies = () => {
   )
 }
 
-export default ShowMovies
+export default ShowFaves
