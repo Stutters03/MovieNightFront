@@ -26,7 +26,6 @@ const handleAddFave = () => {
     return (
         <div key={series._id} className={mode ? "my-3 pl-9 p-3 border w-1/3" : "my-1 pl-9 p-3 border-2 w-75"}>
             {/* mode && will render the elements on the right, only if mode is true */}
-            {mode && <div>Type: {series.type}</div>}
             { <div>Title: {series.title}</div> }
             {mode && <div>Genres: {series.genres.join(", ")}</div>}
             {mode && <div>Poster: <img src={series.poster} alt="" />

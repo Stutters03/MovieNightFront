@@ -78,7 +78,7 @@ function ShowFaves() {
             // Since each element has a consistent look, we use a component
             // a unique key must be specified for each copy and each index is passed to it
             return (
-              <Link to={"/show" + fave.showID} key={fave._id} >
+              <Link to={"/show" + fave._id} key={fave._id} >
                 <ShowFave fave = {fave} mode={false} />
               </Link>
             )
