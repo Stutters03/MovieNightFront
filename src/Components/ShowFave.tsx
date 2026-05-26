@@ -1,6 +1,5 @@
-import React from 'react'
+
 import type { FaveType } from './interface'
-import { Link } from 'react-router'
 
 
 const ShowFave = ({ fave, mode }: { fave: FaveType, mode: boolean }) => {
@@ -20,26 +19,38 @@ const ShowFave = ({ fave, mode }: { fave: FaveType, mode: boolean }) => {
         .then(msg =>{
             console.log(msg)
         })
+    }
 
     const handleEditFave = () => {
 
-         const editFaveReq = new Request(
-            `http://localhost:3000/faves/update/${fave._id}`,
-            {
-                method: 'PUT'
-            }
-       )
-        fetch(editFaveReq)
+    const updatedData = {
+        memo: "Great Movie",
+        watch: true
+    }
+
+    const editFaveReq = new Request(
+        `http://localhost:3000/faves/update/${fave._id}`,
+        {
+            method: 'PUT',
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(updatedData),
+        }
+    )
+
+    fetch(editFaveReq)
         .then(res => res.json())
-        .then(msg =>{
+        .then(msg => {
             console.log(msg)
         })
-
-    }
+}
 
     
     return (
-        <div key={fave._id} className={mode ? "my-3 pl-9 p-3 border w-1/3" : "my-1 pl-9 p-3 border-2 w-75"}>
+        <div key={fave._id} className={mode ? "my-3 pl-9 p-3 border w-2/3" : "my-1 pl-9 p-3 border-2 w-75"}>
             {/* mode && will render the elements on the right, only if mode is true */}
             { <div>Type: {fave._id}</div>}
 
@@ -58,7 +69,8 @@ const ShowFave = ({ fave, mode }: { fave: FaveType, mode: boolean }) => {
             </button>
 
         </div>
-    )}}
+    )
+}
 
  
 

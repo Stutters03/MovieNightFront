@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+
 import { useNavigate, useParams } from 'react-router'
 import type { MoviesType } from '../Components/interface'
 import ShowMovie from '../Components/ShowMovie'
+import { useEffect, useState } from 'react'
 
 // declare React component
 const ShowOneMovie = () => {
@@ -10,9 +11,9 @@ const ShowOneMovie = () => {
   const [movieUno, setMovieUno] = useState<MoviesType | undefined>()
 
   // function to fetch movie data by the specified page number
-  const fetchMovie = (title: string | undefined) => {
+  const fetchMovie = (_id: string | undefined) => {
     // construct the URL and header for fetching the data from the API (backend)
-    const getMovieURL = `http://localhost:3000/movie/${title}`
+    const getMovieURL = `http://localhost:3000/info/${_id}`
     const getMovieReq = new Request(getMovieURL, {
       headers: {
         "Content-Type": "application/json",

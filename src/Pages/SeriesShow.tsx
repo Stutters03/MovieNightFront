@@ -33,6 +33,7 @@ const SeriesShow = () => {
   // use effect is used to allow React to fetch data from an external source
   useEffect(() => {
     fetchSeries(pageNum)
+    console.log(pageNum)
   }, [pageNum]); // the square brackets is for dependecies of the useEffect() method
   // and it will automatically re-render the useEffect whenever the dependcy changes
 
@@ -66,7 +67,7 @@ const SeriesShow = () => {
         {/* trigger the handleSearch function every time a change event is detected on the input element */}
         <input onChange={handleSearch} className="border m-2 p-1 w-50" type="text" id="search" />
       </div>
-      <div className="flex flex-wrap gap-8 justify-center">
+      <div className="grid grid-cols-3 gap-4 justify-center">
         {/* check if the filteredCustomers state variable is null or has zero indexes */}
         {filteredMovies && filteredMovies.length > 0 ? (
           // the array method map creates a new array by executing a specified transformation function

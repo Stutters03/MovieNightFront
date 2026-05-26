@@ -1,5 +1,4 @@
 import type { SeriesType } from './interface'
-import { Link } from 'react-router'
 
 const ShowSeries = ({ series, mode }: { series: SeriesType, mode: boolean }) => {
 
@@ -24,10 +23,10 @@ const handleAddFave = () => {
 
 
     return (
-        <div key={series._id} className={mode ? "my-3 pl-9 p-3 border w-1/3" : "my-1 pl-9 p-3 border-2 w-75"}>
+        <div key={series._id} className={mode ? "my-3 pl-9 p-3 border w-2/3" : "my-1 pl-9 p-3 border-2 w-75"}>
             {/* mode && will render the elements on the right, only if mode is true */}
             { <div>Title: {series.title}</div> }
-            {mode && <div>Genres: {series.genres.join(", ")}</div>}
+            {mode && <div>Genres: {series.genres?.join(", ")}</div>}
             {mode && <div>Poster: <img src={series.poster} alt="" />
             </div>}
             <div>Release Year: {series.year}</div>

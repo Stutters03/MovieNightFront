@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import type { FaveType, MoviesType } from '../Components/interface'
+import type { FaveType,} from '../Components/interface'
 import ShowFave from '../Components/ShowFave'
 import { Link } from 'react-router'
 
@@ -7,16 +7,16 @@ function ShowFaves() {
 
 
     // declare state variable to store the array of customers
-  const [allFaves, setAllFaves] = useState<MoviesType[] | undefined>()
+  const [allFaves, setAllFaves] = useState<FaveType[] | undefined>()
   // declare state variable to store the array of customers based on user input
-  const [filteredFaves, setFilteredFaves] = useState<MoviesType[] | undefined>()
+  const [filteredFaves, setFilteredFaves] = useState<FaveType[] | undefined>()
   // declare state variable to track the page number. Default value is set to 1
   const [pageNum, setPageNum] = useState<number>(1)
 
   // function to fetch customer data by the specified page number
   const fetchFaves = () => {
     // construct the URL and header for fetching the data from the API (backend)
-    const getFavesURL = `http://localhost:3000/faves/show`
+    const getFavesURL = `http://localhost:3000/faves/show?page=${pageNum}`
     const getFavesReq = new Request(getFavesURL, {
       headers: {
         "Content-Type": "application/json",
@@ -35,8 +35,8 @@ function ShowFaves() {
   }
   // use effect is used to allow React to fetch data from an external source
   useEffect(() => {
-    fetchFaves(pageNum)
-  }, [pageNum]); // the square brackets is for dependecies of the useEffect() method
+  fetchFaves()
+}, [pageNum]); // the square brackets is for dependecies of the useEffect() method
   // and it will automatically re-render the useEffect whenever the dependcy changes
 
 
@@ -51,10 +51,10 @@ function ShowFaves() {
     const searchTerm = e.target.value
     setFilteredFaves(
       // use the array filter function to create a new array containing only matching elements
-      allFaves?.filter(movie => {
+      allFaves?.filter(fave => {
         // truthy condition for adding elements to the new array
-        if (movie.title.toLowerCase().includes(searchTerm.toLowerCase()))
-          return movie
+        if (fave._id.toLowerCase().includes(searchTerm.toLowerCase()))
+          return fave
       })
     )
   }
@@ -78,7 +78,7 @@ function ShowFaves() {
             // Since each element has a consistent look, we use a component
             // a unique key must be specified for each copy and each index is passed to it
             return (
-              <Link to={"/show" + fave._id} key={fave._id} >
+              <Link to={`/show/${fave._id}`} key={fave._id}>
                 <ShowFave fave = {fave} mode={false} />
               </Link>
             )

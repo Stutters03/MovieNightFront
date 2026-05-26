@@ -28,10 +28,10 @@ const ShowMovie = ({ movie, mode }: { movie: MoviesType, mode: boolean }) => {
 
     
     return (
-        <div key={movie._id} className={mode ? "my-3 pl-9 p-3 border w-1/3" : "my-1 pl-9 p-3 border-2 w-75"}>
+        <div key={movie._id} className={mode ? "my-3 pl-9 p-3 border w-2/3" : "my-1 pl-9 p-3 border-2 w-75"}>
             {/* mode && will render the elements on the right, only if mode is true */}
             { <div>Title: {movie.title}</div> }
-            {mode && <div>Genres: {movie.genres.join(", ")}</div>}
+            {mode && <div>Genres: {movie.genres?.join(", ")}</div>}
           {mode && <div>Poster: <img src={movie.poster} alt="" />
             </div>}
             <div>Release Year: {movie.year}</div>
